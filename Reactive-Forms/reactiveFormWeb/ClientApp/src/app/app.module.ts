@@ -42,7 +42,7 @@ import { LeaveFormService } from './personas/personas-form/leave-form.service';
   ],
   providers: [PersonasService,
     DireccionesService,
-    LeaveFormService,
+    LeaveFormService,//services de Rote Guards "guardianes de ruta"
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LogInterceptorService,

@@ -29,7 +29,7 @@ export class PersonasFormComponent implements OnInit {
 
   existenCambiosPendientes(): boolean {
     if (this.ignorarExistenCambiosPendientes) { return false; };
-    return !this.formGroup.pristine;
+    return !this.formGroup.pristine;//pristine evalua si el formulario ha sido modificado
   }
 
   ngOnInit() {
@@ -100,7 +100,7 @@ export class PersonasFormComponent implements OnInit {
   }
 
   save() {
-    this.ignorarExistenCambiosPendientes = true;
+    this.ignorarExistenCambiosPendientes = true;//evita el promt de confirmacion de cambios del formulario
     let persona: IPersona = Object.assign({}, this.formGroup.value);//este metodo crea un objeto tipo persona apartir del formulario
     console.table(persona);
 
