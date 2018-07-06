@@ -13,11 +13,12 @@ import { DireccionesService } from '../../direcciones/direcciones.service';
 })
 export class PersonasFormComponent implements OnInit {
 
-  constructor(private fb: FormBuilder,
-    private personasService: PersonasService,
-    private direccionesService: DireccionesService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute ) { }
+  constructor(private fb: FormBuilder,//manejo de los formularios
+    private personasService: PersonasService, //servicios personas
+    private direccionesService: DireccionesService, // servicios Direcciones
+    private router: Router, // Manejo de rutas , para navegar 
+    private activatedRoute: ActivatedRoute //para manejo de las propiedades de la ruta actual, parametros , etc..
+   ) { }
 
 
   modoEdicion: boolean = false;
@@ -32,10 +33,11 @@ export class PersonasFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    //el formBuilder permite construir el modelo del formulario
     this.formGroup = this.fb.group({
       nombre: '',
       fechaNacimiento: '',
-      direcciones: this.fb.array([])
+      direcciones: this.fb.array([])//indicar que sera un numero variable de elementos
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -56,9 +58,9 @@ export class PersonasFormComponent implements OnInit {
   }
 
   agregarDireccion() {
-    let direccionArr = this.formGroup.get('direcciones') as FormArray;
-    let direccionFG = this.construirDireccion();
-    direccionArr.push(direccionFG);
+    let direccionArr = this.formGroup.get('direcciones') as FormArray;//casteo como arreglo de formularios
+    let direccionFG = this.construirDireccion();//crea un nuevo form group
+    direccionArr.push(direccionFG);//agregar el form group al array de formularios
   }
 
   construirDireccion() {
@@ -66,7 +68,7 @@ export class PersonasFormComponent implements OnInit {
       id: '0',
       calle: '',
       provincia: '',
-      personaId: this.personaId != null ? this.personaId : 0
+      personaId: this.personaId != null ? this.personaId : 0 //como se utiliza el mismo formulario para insertar y actualizar , primero evalua si personaId tiene un valor
     });
   }
 
@@ -84,9 +86,9 @@ export class PersonasFormComponent implements OnInit {
     var dp = new DatePipe(navigator.language);
     var format = "yyyy-MM-dd";
 
-    this.formGroup.patchValue({
+    this.formGroup.patchValue({//patchValue , permite pasar los valores al formulario
       nombre: persona.nombre,
-      fechaNacimiento: dp.transform(persona.fechaNacimiento, format)
+      fechaNacimiento: dp.transform(persona.fechaNacimiento, format)//parsear la fecha
     });
 
     let direcciones = this.formGroup.controls['direcciones'] as FormArray;
@@ -99,7 +101,7 @@ export class PersonasFormComponent implements OnInit {
 
   save() {
     this.ignorarExistenCambiosPendientes = true;
-    let persona: IPersona = Object.assign({}, this.formGroup.value);
+    let persona: IPersona = Object.assign({}, this.formGroup.value);//este metodo crea un objeto tipo persona apartir del formulario
     console.table(persona);
 
     if (this.modoEdicion) {
